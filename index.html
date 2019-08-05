@@ -1,0 +1,195 @@
+<html>
+   
+   <head>
+      <title>Angular JS Controller</title>
+      <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+      <script src = "https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.min.js"></script>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   </head>
+   
+   <body ng-app = "mainApp">
+      <h2>Todo Application</h2>
+   
+      <div class="container" ng-controller = "todoController">
+         <div class="row justify-content-md-end">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+              Add Task
+            </button>
+         </div>
+
+         <!-- Modal -->
+         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+           <div class="modal-dialog" role="document">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <h3 class="modal-title" id="exampleModalLabel">Add Task</h3>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+               </div>
+               <div class="modal-body">
+                 <form>
+                    <div class="form-group">
+                      <label>Name</label>
+                      <input type="text" class="form-control" ng-model="taskName">
+                    </div>
+                    <div class="form-group">
+                      <label>Description</label>
+                      <input type="text" class="form-control" ng-model="taskDesc">
+                    </div>
+                    <div class="form-group">
+                      <label>Due Date</label>
+                      <input type="text" class="form-control" ng-model="taskDate">
+                    </div>
+                    <div class="form-group">
+                      <label>Status</label>
+                      <select class="form-control" ng-model="taskStatus">
+                         <option>Todo</option>
+                         <option>InProgress</option>
+                     </select>
+                    </div>
+               </form>
+               </div>
+               <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                 <button type="button" class="btn btn-primary" ng-click="task.onAdd()">Add</button>
+               </div>
+             </div>
+           </div>
+         </div>
+         <div class="row">
+               <div class="col-sm-4">
+                  <!-- Completed Items -->
+                  <div class="container">
+                     <span class="badge badge-success">Completed</span>
+                     <span><br/><br/></span>
+                     <div class="card" style="width: 18rem;" ng-repeat="item in task.items | filter: 'Completed'">
+                       <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                           <h3 class="card-title">{{item.name}}</h3>
+                           <small>{{item.due_date}}</small>
+                        </div>
+                         <p class="card-text">{{item.desc}}</p>
+                         <div class="d-flex justify-content-end">
+                           <a href="#" class="btn btn-sm btn-light" ng-click="task.onEdit(item)">Edit</a>
+                           <a href="#" class="btn btn-sm btn-light" ng-click="task.onDelete(item)">Delete</a>
+                        </div>
+                       </div>
+                     </div>      
+                  </div>
+               </div>
+               
+               <div class="col-sm-4">
+                  <!-- InProgress Items -->
+                  <div class="container">
+                     <span class="badge badge-warning">InProgress</span>
+                     <span><br/><br/></span>
+                     <div class="card" style="width: 18rem;" ng-repeat="item in task.items | filter: 'InProgress'">
+                       <div class="card-body">
+                         <div class="d-flex justify-content-between">
+                           <h3 class="card-title">{{item.name}}</h3>
+                           <small>{{item.due_date}}</small>
+                        </div>
+                         <p class="card-text">{{item.desc}}</p>
+                         <div class="d-flex justify-content-end">
+                           <a href="#" class="btn btn-sm btn-light" ng-click="task.onEdit(item)">Edit</a>
+                           <a href="#" class="btn btn-sm btn-light" ng-click="task.onDelete(item)">Delete</a>
+                        </div>
+                       </div>
+                     </div>      
+                  </div>
+               </div>
+
+               <div class="col-sm-4">
+                  <!-- Todo Items -->
+                  <div class="container">
+                     <span class="badge badge-info">Todo</span>
+                     <span><br/><br/></span>
+                     <div class="card" style="width: 18rem;" ng-repeat="item in task.items | filter: 'Todo'">
+                       <div class="card-body">
+                         <div class="d-flex justify-content-between">
+                           <h3 class="card-title">{{item.name}}</h3>
+                           <small>{{item.due_date}}</small>
+                        </div>
+                         <p class="card-text">{{item.desc}}</p>
+                         <div class="d-flex justify-content-end">
+                           <a href="#" class="btn btn-sm btn-light" ng-click="task.onEdit(item)">Edit</a>
+                           <a href="#" class="btn btn-sm btn-light" ng-click="task.onDelete(item)">Delete</a>
+                        </div>
+                       </div>
+                     </div>      
+                  </div>
+               </div>    
+      </div>
+      
+      <script>
+         var mainApp = angular.module("mainApp", []);
+         
+         mainApp.controller('todoController', function($scope, todoService) {
+            $scope.task = {
+               /*items: [
+                  {"id": 1, "name": "task1", "date": "06/06/2018", "status": "Completed", "description": "desc1"},
+                  {"id": 2, "name": "task2", "date": "06/06/2018", "status": "Completed", "description": "desc2"},
+                  {"id": 3, "name": "task3", "date": "26/06/2018", "status": "InProgress", "description": "desc3"},
+                  {"id": 4, "name": "task4", "date": "04/07/2018", "status": "Todo", "description": "desc4"}
+               ],*/
+
+               onEdit: function(task){
+                  alert(task.id);
+               },
+               
+               onDelete: function(task){
+                  alert(task.id);
+               },
+
+               onAdd: function(){
+                  $scope.task.items.push(todoService.addTask($scope.taskName, $scope.taskDesc, $scope.taskDate, $scope.taskStatus));
+                  $('#exampleModal').modal('hide');
+                  $scope.task.resetForm();
+               },
+
+               resetForm: function(){
+                  $scope.taskName = "";
+                  $scope.taskDesc = "";
+                  $scope.taskDate = "";
+                  $scope.taskStatus = "";
+               }
+
+            };
+
+            todoService.getAllTasks().then(function(data) {
+               $scope.task.items = data;
+            });
+
+         });
+
+         mainApp.service('todoService', function($http) {
+         this.addTask = function (name, desc, date, status) {
+           return {
+            id: -1,
+            name: name,
+            description: desc,
+            status: status,
+            date: date
+           };
+         }
+
+         this.getAllTasks = function(){
+            return $http.get("https://9q17cr3tt4.execute-api.ap-south-1.amazonaws.com/api/tasks")
+             .then(function(response) {
+                  data = response.data;
+                 return data;
+             });
+         }
+      });
+
+
+
+      </script>
+      
+   </body>
+</html>
